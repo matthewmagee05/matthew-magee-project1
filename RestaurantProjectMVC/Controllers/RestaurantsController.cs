@@ -15,9 +15,14 @@ namespace RestaurantProjectMVC.Controllers
         private RestaurantDbContext db = new RestaurantDbContext();
 
         // GET: Restaurants
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
-            return View(db.Restaurants.ToList());
+            if (String.IsNullOrEmpty(searchString))
+            {
+                return View(db.Restaurants.ToList());
+            }
+            return View(db.Restaurants.Where(x => x.Name.ToLower().Contains(searchString.ToLower())));
+            
         }
 
         // GET: Restaurants/Details/5
@@ -125,3 +130,4 @@ namespace RestaurantProjectMVC.Controllers
         }
     }
 }
+

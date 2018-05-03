@@ -29,6 +29,12 @@
     
     <div class="columns">
         <div class="column">
+            @using (Html.BeginForm("Index", "Restaurants", FormMethod.Get))
+            {
+                @Html.TextBox("searchString")<input type="submit" value="Search"/>
+            }
+        </div>
+        <div class="column">
             <a class="button is-primary" href="@Url.Action("Create", "Restaurants")">Create A New Restaurant</a>
         </div>
     </div>
