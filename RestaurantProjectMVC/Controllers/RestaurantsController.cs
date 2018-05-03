@@ -15,13 +15,26 @@ namespace RestaurantProjectMVC.Controllers
         private RestaurantDbContext db = new RestaurantDbContext();
 
         // GET: Restaurants
-        public ActionResult Index(string searchString)
+        public ActionResult Index(string searchString, string searchCriteria)
         {
-            if (String.IsNullOrEmpty(searchString))
+            if (!String.IsNullOrEmpty(searchString))
             {
-                return View(db.Restaurants.ToList());
+                return View(db.Restaurants.Where(x => x.Name.ToLower().Contains(searchString.ToLower())));
             }
-            return View(db.Restaurants.Where(x => x.Name.ToLower().Contains(searchString.ToLower())));
+
+            if (!String.IsNullOrEmpty(searchCriteria))
+            {
+                switch (searchCriteria)
+                {
+                    case "three":
+                       return View(db.Restaurants.ToList().OrderByDescending(x => x.averageRating()).Take(3));
+                    case "name":
+                        return View(db.Restaurants.OrderBy(x => x.Name));
+                    
+                }
+            }
+            return View(db.Restaurants.ToList());
+           
             
         }
 

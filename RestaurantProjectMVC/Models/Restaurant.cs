@@ -18,14 +18,14 @@ namespace RestaurantProjectMVC.Models
 
         public virtual ICollection<Review> Reviews { get; set; }
 
-        public string averageRating()
+        public double averageRating()
         {
             var average = Reviews.Where(a => a.Rating != null)
                 .Select(a => a.Rating)
                 .DefaultIfEmpty(0)
                 .Average();
 
-            return Math.Round(average, 1).ToString();
+            return Math.Round(average, 1);
         }
     }
 }
