@@ -1,0 +1,105 @@
+﻿@model RestaurantProjectMVC.Models.Restaurant
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="columns">
+    <div class="column">
+        <section class="hero is-medium is-primary is-bold">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                        @Model.Name
+                    </h1>
+                    <h2 class="subtitle">
+                        @Model.Description
+                    </h2>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<div class="container">
+    <figure class="image is-350x350">
+
+        <img src="@Url.Content("~" + Model.RestaruantImageURL)" alt="Placeholder image">
+    </figure>
+    <table class="table">
+        <thead>
+        <tr>
+            <th><abbr title="Phone Number">Phone Number</abbr></th>
+            <th><abbr title="Address">Address</abbr></th>
+            <th><abbr title="Zip Code">Zip Code</abbr></th>
+            <th><abbr title="Average Rating">Average Rating</abbr></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                @Model.PhoneNumber
+            </td>
+            <td>
+                @Model.Address
+            </td>
+            <td>
+                @Model.ZipCode
+            </td>
+            <td>
+                @Model.averageRating()
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+    <div class="column">
+        <a class="button is-link" href="@Url.Action("Index", "Restaurants")">Back To All Restaurants</a>
+        <a class="button is-info" href="@Url.Action("Edit", "Restaurants", new {id = Model.RestaurantId})">Edit @Model.Name</a>
+    </div>
+
+<div class="column">
+    <h3 class="title is-3">Reviews</h3>
+</div>
+<div class="container is-fluid">
+    <div class="columns is-multiline">
+        
+        @foreach (var item in Model.Reviews)
+        {
+            <div class="column is-one-third">
+                <div class="card">
+
+                    <div class="card-image">
+
+                        <figure class="image is-4by3">
+
+                            <img src="@Url.Content("~" + item.profileURL)" alt="Placeholder image">
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4">@item.Username</p>
+                                <p class="subtitle is-6">Rating: @item.Rating</p>
+                            </div>
+                        </div>
+
+                        <div class="content">
+                            @item.ReviewMessage
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a class="card-footer-item" href="@Url.Action("Edit", "Reviews", new {id = item.Id})">Edit</a>
+                        <a class="card-footer-item" href="@Url.Action("Delete", "Reviews", new {id = item.Id})">Delete</a>
+                    </footer>
+                </div>
+
+            </div>
+
+        }
+
+    </div>
+</div>
+
+
+

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<RestaurantProjectMVC.Models.Restaurant>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+    <div class="columns">
+        <div class="column">
+            <section class="hero is-medium is-primary is-bold">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                        Restaurant Finder
+                    </h1>
+                    <h2 class="subtitle">
+                        Find your favorite restaurants here.
+                    </h2>
+                </div>
+            </div>
+            </section>
+        </div>
+    </div>
+    
+
+
+    
+<div class="container is-fluid">
+    
+    <div class="columns">
+        <div class="column">
+            <a class="button is-primary" href="@Url.Action("Create", "Restaurants")">Create A New Restaurant</a>
+        </div>
+    </div>
+    <div class="columns is-multiline">
+
+        @foreach (var item in Model)
+        {
+            <div class="column is-one-third">
+                <div class="card">
+                    
+                    <div class="card-image">
+                        
+                        <figure class="image is-4by3">
+                            
+                            <img src="@Url.Content("~" + item.RestaruantImageURL)" alt="Placeholder image">
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4">@item.Name</p>
+                                <p class="subtitle is-6">Rating: @item.averageRating()</p>
+                            </div>
+                        </div>
+
+                        <div class="content">
+                            @item.Description
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a class="card-footer-item" href="@Url.Action("Details", "Restaurants", new {id = item.RestaurantId})">Details</a>
+                        <a class="card-footer-item" href="@Url.Action("Edit", "Restaurants", new {id = item.RestaurantId})">Edit</a>
+                        <a class="card-footer-item" href="@Url.Action("Delete", "Restaurants", new {id = item.RestaurantId})">Delete</a>
+                    </footer>
+                </div>
+
+            </div>
+
+        }
+
+    </div>
+</div>  

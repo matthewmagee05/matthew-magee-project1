@@ -1,0 +1,35 @@
+﻿@model RestaurantProjectMVC.Models.Restaurant
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div class="columns">
+    <div class="column">
+        <section class="hero is-medium is-primary is-bold">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                        Are you sure you want to delete @Model.Name?
+                    </h1>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+                    <a class="button is-link" href="@Url.Action("Index", "Restaurants")">Back To All Restaurants</a>
+                    
+                </div>
+                <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+                    <input type="submit" value="Delete" class="button is-danger" />
+                </div>
+                </div>
+            </div>
+    }
+

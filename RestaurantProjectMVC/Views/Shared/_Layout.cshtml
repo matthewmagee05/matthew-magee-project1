@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+<body>
+    
+<nav class="navbar is-transparent" role="navigation" aria-label="dropdown navigation">
+    <div class="navbar-item">
+        <a class="navbar-item"  href="@Url.Action("Index", "Restaurants")">
+            Home
+        </a>
+        <a class="navbar-item" href="./AboutUs.html">
+            About
+        </a>
+        <a class="navbar-item" href="./ContactUs.html">
+            Contact
+        </a>
+    </div>
+</nav>
+
+
+
+    
+    @RenderBody()
+    <hr/>
+
+<footer class="footer">
+    <div class="container">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Restuarant Finder</strong>&copy; @DateTime.Now.Year by Matthew Magee. The source code is licensed
+                <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+                is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+            </p>
+        </div>
+    </div>
+</footer>
+
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
