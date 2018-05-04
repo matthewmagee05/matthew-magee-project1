@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
+﻿using System.Net;
 using System.Web.Mvc;
 using RestaurantProjectMVC.Models;
 using RestaurantProjectMVC.Data;
+using NLog;
 
 namespace RestaurantProjectMVC.Controllers
 {
     public class RestaurantsController : Controller
     {
-        
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         private RestaurantRepository rr = new RestaurantRepository(new RestaurantDbContext());
 
         // GET: Restaurants
         public ActionResult Index(string searchString, string searchCriteria)
         {
-            
+            logger.Trace("Restuarants Loaded");
             return View(rr.SearchAll(searchString, searchCriteria));  
         }
 
@@ -56,7 +51,7 @@ namespace RestaurantProjectMVC.Controllers
                 rr.Insert(restaurant);
                 return RedirectToAction("Index");
             }
-
+            logger.Trace("New Restaurant Added");
             return View(restaurant);
         }
 
@@ -72,6 +67,7 @@ namespace RestaurantProjectMVC.Controllers
             {
                 return HttpNotFound();
             }
+            
             return View(restaurant);
         }
 
@@ -85,8 +81,10 @@ namespace RestaurantProjectMVC.Controllers
             if (ModelState.IsValid)
             {
                 rr.Update(restaurant);
+                logger.Trace("Restuarant " + restaurant.Name + " Edited");
                 return RedirectToAction("Index");
             }
+            
             return View(restaurant);
         }
 
@@ -111,6 +109,7 @@ namespace RestaurantProjectMVC.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             rr.Delete(id);
+            logger.Trace("Restuarant Deleted");
             return RedirectToAction("Index");
         }
     }
