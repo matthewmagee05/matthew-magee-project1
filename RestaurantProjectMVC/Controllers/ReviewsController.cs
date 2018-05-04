@@ -8,16 +8,18 @@ using System.Web;
 using System.Web.Mvc;
 using RestaurantProjectMVC.Models;
 using RestaurantProjectMVC.Data;
+using NLog;
 
 namespace RestaurantProjectMVC.Controllers
 {
     public class ReviewsController : Controller
     {
-        
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         private ReviewRepository rr = new ReviewRepository(new RestaurantDbContext());
         // GET: Reviews
         public ActionResult Index()
         {
+            logger.Trace("Reviews Loaded");
             var resviews = rr.GetAll();
             return View(resviews.ToList());
         }
@@ -55,6 +57,7 @@ namespace RestaurantProjectMVC.Controllers
             if (ModelState.IsValid)
             {
                 rr.Insert(review);
+                logger.Trace("Review Created");
                 return RedirectToAction("Index");
             }
             var result = rr.GetRestuarants();
@@ -90,6 +93,7 @@ namespace RestaurantProjectMVC.Controllers
             if (ModelState.IsValid)
             {
                 rr.Update(review);
+                logger.Trace("Reviews Edited");
                 return RedirectToAction("Index");
             }
             var result = rr.GetRestuarants().ToList();
@@ -118,6 +122,7 @@ namespace RestaurantProjectMVC.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             rr.Delete(id);
+            logger.Trace("Review Deleted");
             return RedirectToAction("Index");
         }
         
