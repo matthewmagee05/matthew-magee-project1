@@ -10,8 +10,10 @@ First MVC 5 project.  Basic CRUD application highlighting ability to add restara
     * NLog
   
 
-## Example
+## Example Search
 
 ![Alt Text](/vid/vid1.gif)
+- - - -
+## Example Overall Application
 ![Alt Text](/vid/vid2.gif)
 
