@@ -7,35 +7,20 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RestaurantProjectMVC.Models;
+using RestaurantProjectMVC.Data;
 
 namespace RestaurantProjectMVC.Controllers
 {
     public class RestaurantsController : Controller
     {
-        private RestaurantDbContext db = new RestaurantDbContext();
+        
+        private RestaurantRepository rr = new RestaurantRepository(new RestaurantDbContext());
 
         // GET: Restaurants
         public ActionResult Index(string searchString, string searchCriteria)
         {
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                return View(db.Restaurants.Where(x => x.Name.ToLower().Contains(searchString.ToLower())));
-            }
-
-            if (!String.IsNullOrEmpty(searchCriteria))
-            {
-                switch (searchCriteria)
-                {
-                    case "three":
-                       return View(db.Restaurants.ToList().OrderByDescending(x => x.averageRating()).Take(3));
-                    case "name":
-                        return View(db.Restaurants.OrderBy(x => x.Name));
-                    
-                }
-            }
-            return View(db.Restaurants.ToList());
-           
             
+            return View(rr.SearchAll(searchString, searchCriteria));  
         }
 
         // GET: Restaurants/Details/5
@@ -45,7 +30,7 @@ namespace RestaurantProjectMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Restaurant restaurant = db.Restaurants.Find(id);
+            var restaurant = rr.GetId(id.GetValueOrDefault());
             if (restaurant == null)
             {
                 return HttpNotFound();
@@ -68,8 +53,7 @@ namespace RestaurantProjectMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Restaurants.Add(restaurant);
-                db.SaveChanges();
+                rr.Insert(restaurant);
                 return RedirectToAction("Index");
             }
 
@@ -83,7 +67,7 @@ namespace RestaurantProjectMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Restaurant restaurant = db.Restaurants.Find(id);
+            var restaurant = rr.GetId(id.GetValueOrDefault());
             if (restaurant == null)
             {
                 return HttpNotFound();
@@ -100,8 +84,7 @@ namespace RestaurantProjectMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(restaurant).State = EntityState.Modified;
-                db.SaveChanges();
+                rr.Update(restaurant);
                 return RedirectToAction("Index");
             }
             return View(restaurant);
@@ -114,7 +97,7 @@ namespace RestaurantProjectMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Restaurant restaurant = db.Restaurants.Find(id);
+            var restaurant = rr.GetId(id.GetValueOrDefault());
             if (restaurant == null)
             {
                 return HttpNotFound();
@@ -127,20 +110,11 @@ namespace RestaurantProjectMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Restaurant restaurant = db.Restaurants.Find(id);
-            db.Restaurants.Remove(restaurant);
-            db.SaveChanges();
+            rr.Delete(id);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        
     }
 }
 
