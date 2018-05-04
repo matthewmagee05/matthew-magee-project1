@@ -113,8 +113,9 @@ namespace RestaurantProjectMVC.Controllers
             rr.Delete(id);
             return RedirectToAction("Index");
         }
-
-        
     }
+
+
 }
+
 

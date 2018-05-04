@@ -7,17 +7,18 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RestaurantProjectMVC.Models;
+using RestaurantProjectMVC.Data;
 
 namespace RestaurantProjectMVC.Controllers
 {
     public class ReviewsController : Controller
     {
-        private RestaurantDbContext db = new RestaurantDbContext();
-
+        
+        private ReviewRepository rr = new ReviewRepository(new RestaurantDbContext());
         // GET: Reviews
         public ActionResult Index()
         {
-            var resviews = db.Resviews.Include(r => r.Restaurant);
+            var resviews = rr.GetAll();
             return View(resviews.ToList());
         }
 
@@ -28,7 +29,7 @@ namespace RestaurantProjectMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Review review = db.Resviews.Find(id);
+            Review review = rr.GetId(id.GetValueOrDefault());
             if (review == null)
             {
                 return HttpNotFound();
@@ -39,7 +40,8 @@ namespace RestaurantProjectMVC.Controllers
         // GET: Reviews/Create
         public ActionResult Create()
         {
-            ViewBag.RestarantId = new SelectList(db.Restaurants, "RestaurantId", "Name");
+            var result = rr.GetRestuarants();
+            ViewBag.RestarantId = new SelectList(result, "RestaurantId", "Name");
             return View();
         }
 
@@ -52,12 +54,12 @@ namespace RestaurantProjectMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Resviews.Add(review);
-                db.SaveChanges();
+                rr.Insert(review);
                 return RedirectToAction("Index");
             }
+            var result = rr.GetRestuarants();
 
-            ViewBag.RestarantId = new SelectList(db.Restaurants, "RestaurantId", "Name", review.RestarantId);
+            ViewBag.RestarantId = new SelectList(result, "RestaurantId", "Name", review.RestarantId);
             return View(review);
         }
 
@@ -68,12 +70,13 @@ namespace RestaurantProjectMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Review review = db.Resviews.Find(id);
+            Review review = rr.GetId(id.GetValueOrDefault());
             if (review == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.RestarantId = new SelectList(db.Restaurants, "RestaurantId", "Name", review.RestarantId);
+            var result = rr.GetRestuarants();
+            ViewBag.RestarantId = new SelectList(result, "RestaurantId", "Name", review.RestarantId);
             return View(review);
         }
 
@@ -86,11 +89,11 @@ namespace RestaurantProjectMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(review).State = EntityState.Modified;
-                db.SaveChanges();
+                rr.Update(review);
                 return RedirectToAction("Index");
             }
-            ViewBag.RestarantId = new SelectList(db.Restaurants, "RestaurantId", "Name", review.RestarantId);
+            var result = rr.GetRestuarants().ToList();
+            ViewBag.RestarantId = new SelectList(result, "RestaurantId", "Name", review.RestarantId);
             return View(review);
         }
 
@@ -101,7 +104,7 @@ namespace RestaurantProjectMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Review review = db.Resviews.Find(id);
+            Review review = rr.GetId(id.GetValueOrDefault());
             if (review == null)
             {
                 return HttpNotFound();
@@ -114,19 +117,9 @@ namespace RestaurantProjectMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Review review = db.Resviews.Find(id);
-            db.Resviews.Remove(review);
-            db.SaveChanges();
+            rr.Delete(id);
             return RedirectToAction("Index");
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        
     }
 }

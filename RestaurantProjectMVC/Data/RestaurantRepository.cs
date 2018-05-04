@@ -27,7 +27,7 @@ namespace RestaurantProjectMVC.Data
         
         public IEnumerable<Restaurant> GetAll()
         {
-            return db.Restaurants.ToList();
+            return db.Restaurants;
         }
 
         public Restaurant GetId(int id)
@@ -41,12 +41,7 @@ namespace RestaurantProjectMVC.Data
             db.Restaurants.Add(item);
             db.SaveChanges();
         }
-
-        public void Save()
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public IEnumerable<Restaurant> SearchAll(string a, string b)
         {
             if (!String.IsNullOrEmpty(a))

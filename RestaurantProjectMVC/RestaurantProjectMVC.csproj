@@ -150,6 +150,7 @@
     <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Data\IRestaurantRepository.cs" />
     <Compile Include="Data\RestaurantRepository.cs" />
+    <Compile Include="Data\ReviewRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

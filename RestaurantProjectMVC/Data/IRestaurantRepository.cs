@@ -14,6 +14,5 @@ namespace RestaurantProjectMVC.Data
         void Insert(T item);
         void Delete(int id);
         void Update(T item);
-        void Save();
     }
 }
