@@ -49,21 +49,21 @@
                     <div class="field">
                         @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "label" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Rating, new { htmlAttributes = new { @class = "input", required = "required", pattern = @"\d(\.\d)? | 10" } })
+                            @Html.EditorFor(model => model.Rating, new { htmlAttributes = new { @class = "input", required = "required", pattern = @"(?<![\d\.-])\d(\.\d)?(?!(\.\d)|\d)|(?<![\d\.-])10(?!(\.\d)|\d])" } })
                             @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
                     <div class="field">
-                        @Html.LabelFor(model => model.profileURL, htmlAttributes: new { @class = "label" })
+                        @Html.LabelFor(model => model.profileURL, "Profile Image", htmlAttributes: new { @class = "label" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.profileURL, new { htmlAttributes = new { @class = "input", required = "required" } })
+                            @Html.DropDownList("profileURL", null, htmlAttributes: new { @class = "input" })
                             @Html.ValidationMessageFor(model => model.profileURL, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
                     <div class="field">
-                        @Html.LabelFor(model => model.RestarantId, "RestarantId", htmlAttributes: new { @class = "label" })
+                        @Html.LabelFor(model => model.RestarantId, "Restaurant Name", htmlAttributes: new { @class = "label" })
                         <div class="col-md-10">
                             @Html.DropDownList("RestarantId", null, htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.RestarantId, "", new { @class = "text-danger" })

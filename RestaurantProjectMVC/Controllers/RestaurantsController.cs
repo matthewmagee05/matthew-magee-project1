@@ -36,6 +36,8 @@ namespace RestaurantProjectMVC.Controllers
         // GET: Restaurants/Create
         public ActionResult Create()
         {
+            var result = rr.GetAll();
+            ViewBag.RestaruantImageURL = new SelectList(result, "RestaruantImageURL", "RestaruantImageURL");
             return View();
         }
 
@@ -52,6 +54,9 @@ namespace RestaurantProjectMVC.Controllers
                 return RedirectToAction("Index");
             }
             logger.Trace("New Restaurant Added");
+            var result = rr.GetAll();
+
+            ViewBag.RestaruantImageURL = new SelectList(result, "RestaruantImageURL", "Name", restaurant.RestaruantImageURL);
             return View(restaurant);
         }
 
@@ -67,7 +72,9 @@ namespace RestaurantProjectMVC.Controllers
             {
                 return HttpNotFound();
             }
-            
+            var result = rr.GetAll();
+            ViewBag.RestaruantImageURL = new SelectList(result, "RestaruantImageURL", "Name", restaurant.RestaruantImageURL);
+
             return View(restaurant);
         }
 
@@ -84,7 +91,8 @@ namespace RestaurantProjectMVC.Controllers
                 logger.Trace("Restuarant " + restaurant.Name + " Edited");
                 return RedirectToAction("Index");
             }
-            
+            var result = rr.GetAll();
+            ViewBag.RestaruantImageURL = new SelectList(result, "RestaruantImageURL", "Name", restaurant.RestaruantImageURL);
             return View(restaurant);
         }
 

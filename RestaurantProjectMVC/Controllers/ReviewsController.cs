@@ -38,7 +38,9 @@ namespace RestaurantProjectMVC.Controllers
         public ActionResult Create()
         {
             var result = rr.GetRestuarants();
+            var result2 = rr.GetAll();
             ViewBag.RestarantId = new SelectList(result, "RestaurantId", "Name");
+            ViewBag.profileURL = new SelectList(result2, "profileURL", "profileURL");
             return View();
         }
 
@@ -56,7 +58,8 @@ namespace RestaurantProjectMVC.Controllers
                 return RedirectToAction("Index");
             }
             var result = rr.GetRestuarants();
-
+            var result2 = rr.GetAll();
+            ViewBag.profileURL = new SelectList(result2, "profileURL", "profileURL");
             ViewBag.RestarantId = new SelectList(result, "RestaurantId", "Name", review.RestarantId);
             return View(review);
         }
@@ -74,6 +77,8 @@ namespace RestaurantProjectMVC.Controllers
                 return HttpNotFound();
             }
             var result = rr.GetRestuarants();
+            var result2 = rr.GetAll();
+            ViewBag.profileURL = new SelectList(result2, "profileURL", "profileURL");
             ViewBag.RestarantId = new SelectList(result, "RestaurantId", "Name", review.RestarantId);
             return View(review);
         }
@@ -91,6 +96,8 @@ namespace RestaurantProjectMVC.Controllers
                 logger.Trace("Reviews Edited");
                 return RedirectToAction("Index");
             }
+            var result2 = rr.GetAll();
+            ViewBag.profileURL = new SelectList(result2, "profileURL", "profileURL");
             var result = rr.GetRestuarants().ToList();
             ViewBag.RestarantId = new SelectList(result, "RestaurantId", "Name", review.RestarantId);
             return View(review);

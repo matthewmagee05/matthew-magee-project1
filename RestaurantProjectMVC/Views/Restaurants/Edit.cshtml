@@ -70,9 +70,9 @@
                     </div>
 
                     <div class="field">
-                        @Html.LabelFor(model => model.RestaruantImageURL, htmlAttributes: new { @class = "label" })
+                        @Html.LabelFor(model => model.RestaruantImageURL, "Restaurant Image", htmlAttributes: new { @class = "label" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.RestaruantImageURL, new { htmlAttributes = new { @class = "input", required = "required" } })
+                            @Html.DropDownList("RestaruantImageURL", null, htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.RestaruantImageURL, "", new { @class = "text-danger" })
                         </div>
                     </div>
