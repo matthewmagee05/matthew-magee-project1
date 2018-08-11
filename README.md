@@ -1,6 +1,6 @@
 ## Synopsis
 
-First MVC 5 project.  Basic CRUD application highlighting ability to add restaraurants and reviews.
+Basic CRUD application highlighting ability to add restaraurants and reviews.
 * Technologies used:
     * C#/.NET
     * Entity Framework
